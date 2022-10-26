@@ -11,6 +11,6 @@ const advertisingRouter = Router();
 advertisingRouter.get("/", getAdvertising);
 advertisingRouter.get("/:id", getAdvertisingId);
 advertisingRouter.post("/", registerListAdvertising);
-advertisingRouter.delete("/:id", deleteListAdvertising);
+advertisingRouter.delete("/", deleteListAdvertising);
 
 export default advertisingRouter;

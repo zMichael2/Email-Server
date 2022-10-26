@@ -1,10 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import { registerListInterface } from "../interface/advertising.interface";
+import {
+  DeleteList,
+  RegisterListInterface,
+} from "../interface/advertising.interface";
 
 const prisma = new PrismaClient();
 
-export const registerList = async (registerlist: registerListInterface) => {
+export const registerList = async (registerlist: RegisterListInterface) => {
   try {
     await prisma.advertisingList.create({
       data: {
@@ -15,6 +18,23 @@ export const registerList = async (registerlist: registerListInterface) => {
       },
     });
     return "The user has been successfully registered";
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const deleteList = async (deleteList: DeleteList) => {
+  try {
+    await prisma.advertisingList.update({
+      where: {
+        userId: deleteList.userid,
+      },
+      data: {
+        subscription: false,
+      },
+    });
+    return "the user has been successfully removed from the list";
   } catch (error) {
     console.log(error);
     return null;

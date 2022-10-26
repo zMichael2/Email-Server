@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import crypto from "crypto";
-import { registerList } from "../service/advertising.service";
-import { registerListInterface } from "../interface/advertising.interface";
+import { deleteList, registerList } from "../service/advertising.service";
 
 export const getAdvertising = (req: Request, res: Response) => {
   res.json({ message: "Hola" });
@@ -25,4 +24,17 @@ export const registerListAdvertising = async (req: Request, res: Response) => {
   res.status(200).json({ message: register });
 };
 
-export const deleteListAdvertising = (req: Request, res: Response) => {};
+export const deleteListAdvertising = async (req: Request, res: Response) => {
+  const { userid } = req.body;
+  const deleteuser = await deleteList({ userid: userid });
+
+  if (!deleteuser) {
+    return res.status(400).json({
+      message: "Failed to delete user,",
+    });
+  }
+
+  return res.status(200).json({
+    message: deleteuser,
+  });
+};

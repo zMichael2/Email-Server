@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerList = void 0;
+exports.deleteList = exports.registerList = void 0;
 const client_1 = require("@prisma/client");
 const crypto_1 = __importDefault(require("crypto"));
 const prisma = new client_1.PrismaClient();
@@ -34,4 +34,22 @@ const registerList = (registerlist) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.registerList = registerList;
+const deleteList = (deleteList) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield prisma.advertisingList.update({
+            where: {
+                userId: deleteList.userid,
+            },
+            data: {
+                subscription: false,
+            },
+        });
+        return "the user has been successfully removed from the list";
+    }
+    catch (error) {
+        console.log(error);
+        return null;
+    }
+});
+exports.deleteList = deleteList;
 //# sourceMappingURL=advertising.service.js.map

@@ -37,6 +37,17 @@ const registerListAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.status(200).json({ message: register });
 });
 exports.registerListAdvertising = registerListAdvertising;
-const deleteListAdvertising = (req, res) => { };
+const deleteListAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userid } = req.body;
+    const deleteuser = yield (0, advertising_service_1.deleteList)({ userid: userid });
+    if (!deleteuser) {
+        return res.status(400).json({
+            message: "Failed to delete user,",
+        });
+    }
+    return res.status(200).json({
+        message: deleteuser,
+    });
+});
 exports.deleteListAdvertising = deleteListAdvertising;
 //# sourceMappingURL=advertising.controllers.js.map

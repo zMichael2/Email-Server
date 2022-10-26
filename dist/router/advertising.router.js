@@ -6,6 +6,6 @@ const advertisingRouter = (0, express_1.Router)();
 advertisingRouter.get("/", advertising_controllers_1.getAdvertising);
 advertisingRouter.get("/:id", advertising_controllers_1.getAdvertisingId);
 advertisingRouter.post("/", advertising_controllers_1.registerListAdvertising);
-advertisingRouter.delete("/:id", advertising_controllers_1.deleteListAdvertising);
+advertisingRouter.delete("/", advertising_controllers_1.deleteListAdvertising);
 exports.default = advertisingRouter;
 //# sourceMappingURL=advertising.router.js.map

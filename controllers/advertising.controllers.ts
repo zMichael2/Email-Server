@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import crypto from "crypto";
-import { deleteList, registerList } from "../service/advertising.service";
+import {
+  deleteList,
+  getListAdvertising,
+  registerList,
+  sendEmail,
+} from "../service/advertising.service";
 
 export const getAdvertising = (req: Request, res: Response) => {
   res.json({ message: "Hola" });
@@ -9,10 +14,11 @@ export const getAdvertising = (req: Request, res: Response) => {
 export const getAdvertisingId = (req: Request, res: Response) => {};
 
 export const registerListAdvertising = async (req: Request, res: Response) => {
-  const { name, subscription } = req.body;
+  const { name, subscription, email } = req.body;
   const userid = crypto.randomBytes(5).toString("hex");
   const register = await registerList({
     name: name,
+    email: email,
     userid: userid,
     subscription: subscription,
   });
@@ -22,6 +28,12 @@ export const registerListAdvertising = async (req: Request, res: Response) => {
     });
   }
   res.status(200).json({ message: register });
+};
+export const notificationAdvertising = async (req: Request, res: Response) => {
+  const { name, email, userid } = req.body;
+  //const data = await getListAdvertising();
+  const send = await sendEmail({ name: name, email: email, userid });
+  res.status(200).json({ message: "Se ha enviado el correo correctamente" });
 };
 
 export const deleteListAdvertising = async (req: Request, res: Response) => {

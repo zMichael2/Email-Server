@@ -13,6 +13,7 @@ datasource db {
 model advertisingList {
   id  String @id 
   name String
+  email String
   userId String @unique
   subscription Boolean @default(true)
 }

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteListAdvertising = exports.registerListAdvertising = exports.getAdvertisingId = exports.getAdvertising = void 0;
+exports.deleteListAdvertising = exports.notificationAdvertising = exports.registerListAdvertising = exports.getAdvertisingId = exports.getAdvertising = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const advertising_service_1 = require("../service/advertising.service");
 const getAdvertising = (req, res) => {
@@ -22,10 +22,11 @@ exports.getAdvertising = getAdvertising;
 const getAdvertisingId = (req, res) => { };
 exports.getAdvertisingId = getAdvertisingId;
 const registerListAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, subscription } = req.body;
+    const { name, subscription, email } = req.body;
     const userid = crypto_1.default.randomBytes(5).toString("hex");
     const register = yield (0, advertising_service_1.registerList)({
         name: name,
+        email: email,
         userid: userid,
         subscription: subscription,
     });
@@ -37,6 +38,13 @@ const registerListAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.status(200).json({ message: register });
 });
 exports.registerListAdvertising = registerListAdvertising;
+const notificationAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, email, userid } = req.body;
+    //const data = await getListAdvertising();
+    const send = yield (0, advertising_service_1.sendEmail)({ name: name, email: email, userid });
+    res.status(200).json({ message: "Se ha enviado el correo correctamente" });
+});
+exports.notificationAdvertising = notificationAdvertising;
 const deleteListAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userid } = req.body;
     const deleteuser = yield (0, advertising_service_1.deleteList)({ userid: userid });

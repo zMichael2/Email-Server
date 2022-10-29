@@ -37,26 +37,19 @@ const getListAdvertising = () => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getListAdvertising = getListAdvertising;
-const sendEmail = (information) => __awaiter(void 0, void 0, void 0, function* () {
+const sendEmail = (message) => __awaiter(void 0, void 0, void 0, function* () {
+    const emailGmail = `${process.env.EMAILGOOGLE}`;
+    const passGmail = `${process.env.PASSGOOGLE}`;
     const transporter = nodemailer_1.default.createTransport({
         host: "smtp.gmail.com",
         port: 465,
         secure: true,
         auth: {
-            user: "elmaik3121@gmail.com",
-            pass: "prpvseguugbcannp",
+            user: emailGmail,
+            pass: passGmail,
         },
     });
-    let mailOptions = {
-        from: '"Bloom Api 👻"',
-        to: `${information.email}`,
-        subject: "Gran promoción ✔",
-        text: "Hello world?",
-        html: `"<b>Hello world? Codigo user${information.userid}</b>"`, // html body
-    };
-    console.log(information.email);
-    let info = yield transporter.sendMail(mailOptions);
-    console.log("Preview URL: %s", nodemailer_1.default.getTestMessageUrl(info));
+    yield transporter.sendMail(message);
 });
 exports.sendEmail = sendEmail;
 const registerList = (registerlist) => __awaiter(void 0, void 0, void 0, function* () {

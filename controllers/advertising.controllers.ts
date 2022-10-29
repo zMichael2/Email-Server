@@ -6,6 +6,7 @@ import {
   registerList,
   sendEmail,
 } from "../service/advertising.service";
+import { maipOption } from "../helpers/mailOption.hepers";
 
 export const getAdvertising = (req: Request, res: Response) => {
   res.json({ message: "Hola" });
@@ -30,14 +31,16 @@ export const registerListAdvertising = async (req: Request, res: Response) => {
   res.status(200).json({ message: register });
 };
 export const notificationAdvertising = async (req: Request, res: Response) => {
-  const { name, email, userid } = req.body;
+  const { name, email, userid, type } = req.body;
   //const data = await getListAdvertising();
-  const send = await sendEmail({ name: name, email: email, userid });
+  const message = maipOption(type, email, userid);
+  await sendEmail(message);
+
   res.status(200).json({ message: "Se ha enviado el correo correctamente" });
 };
 
 export const deleteListAdvertising = async (req: Request, res: Response) => {
-  const { userid } = req.body;
+  const { userid } = req.params;
   const deleteuser = await deleteList({ userid: userid });
 
   if (!deleteuser) {
@@ -46,7 +49,5 @@ export const deleteListAdvertising = async (req: Request, res: Response) => {
     });
   }
 
-  return res.status(200).json({
-    message: deleteuser,
-  });
+  return res.status(200).send("delete");
 };

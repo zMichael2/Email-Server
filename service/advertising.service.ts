@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import {
   DeleteList,
   InfoEmail,
+  MessageOption,
   RegisterListInterface,
 } from "../interface/advertising.interface";
 
@@ -28,30 +29,25 @@ export const getListAdvertising = async () => {
   }
 };
 
-export const sendEmail = async (information: InfoEmail) => {
+export const sendEmail = async (message: MessageOption) => {
+  const emailGmail = `${process.env.EMAILGOOGLE}`;
+  const passGmail = `${process.env.PASSGOOGLE}`;
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
-      user: "elmaik3121@gmail.com",
-      pass: "prpvseguugbcannp",
+      user: emailGmail,
+      pass: passGmail,
     },
   });
-  let mailOptions = {
-    from: '"Bloom Api 👻"',
-    to: `${information.email}`,
-    subject: "Gran promoción ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: `"<b>Hello world? Codigo user${information.userid}</b>"`, // html body
-  };
-  console.log(information.email);
 
-  let info = await transporter.sendMail(mailOptions);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  await transporter.sendMail(message);
 };
 
-export const registerList = async (registerlist: RegisterListInterface) => {
+export const registerList = async (
+  registerlist: RegisterListInterface
+): Promise<string | null> => {
   try {
     await prisma.advertisingList.create({
       data: {
@@ -69,7 +65,9 @@ export const registerList = async (registerlist: RegisterListInterface) => {
   }
 };
 
-export const deleteList = async (deleteList: DeleteList) => {
+export const deleteList = async (
+  deleteList: DeleteList
+): Promise<string | null> => {
   try {
     await prisma.advertisingList.update({
       where: {

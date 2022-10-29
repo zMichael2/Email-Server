@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteListAdvertising = exports.notificationAdvertising = exports.registerListAdvertising = exports.getAdvertisingId = exports.getAdvertising = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const advertising_service_1 = require("../service/advertising.service");
+const mailOption_hepers_1 = require("../helpers/mailOption.hepers");
 const getAdvertising = (req, res) => {
     res.json({ message: "Hola" });
 };
@@ -39,9 +40,10 @@ const registerListAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, 
 });
 exports.registerListAdvertising = registerListAdvertising;
 const notificationAdvertising = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, userid } = req.body;
+    const { name, email, userid, type } = req.body;
     //const data = await getListAdvertising();
-    const send = yield (0, advertising_service_1.sendEmail)({ name: name, email: email, userid });
+    const message = (0, mailOption_hepers_1.maipOption)(type, email);
+    yield (0, advertising_service_1.sendEmail)(message);
     res.status(200).json({ message: "Se ha enviado el correo correctamente" });
 });
 exports.notificationAdvertising = notificationAdvertising;
